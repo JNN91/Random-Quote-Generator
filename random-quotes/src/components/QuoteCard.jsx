@@ -2,13 +2,11 @@ import React from "react";
 
 export default function QuoteCard({ quote }) {
   return (
-    <div className="card max-w-lg text-center space-y-4">
-      <p className="text-lg italic text-gray-700 dark:text-gray-300">
-        “{quote.text}”
+    <div className="mb-6">
+      <p className="text-xl italic mb-4">“{quote.text}”</p>
+      <p className="text-right font-semibold text-purple-600 dark:text-purple-400">
+        - {quote.author}
       </p>
-      <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100">
-        — {quote.author}
-      </h3>
     </div>
   );
 }
