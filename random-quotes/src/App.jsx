@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import QuoteCard from "./components/QuoteCard";
 import QuoteButton from "./components/QuoteButton";
 import Loader from "./components/Loader";
@@ -9,31 +9,38 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchQuote = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-
+  const fetchQuote = async () => {
     try {
-      const res = await fetch("https://api.quotable.io/random");
-      if (!res.ok) throw new Error("Failed to fetch quote");
-      const data = await res.json();
-      setQuote({ text: data.content, author: data.author });
+      setLoading(true);
+      setError(null);
+
+      const response = await fetch("https://zenquotes.io/api/random");
+      console.log("Response status:", response.status);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch quote");
+      }
+
+      const data = await response.json();
+      console.log("API sata:", data);
+
+      setQuote({ text: data[0].q, author: data[0].a });
     } catch (err) {
-      setError("Could not fetch a new quote. Please try again.");
+      console.error("Error fetching quote:", err); 
+      setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, []);
+  };
 
+  // Fetch a quote when app loads
   useEffect(() => {
     fetchQuote();
-  }, [fetchQuote]);
-  
+  }, []);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 bg-gray-100 dark:bg-gray-900">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">
-        Random Quote Generator
-      </h1>
+    <div className="text-center">
+      <h1 className="text-2xl font-bold mb-6">🌟 Random Quote Generator</h1>
 
       {loading && <Loader />}
       {error && <ErrorMessage message={error} onRetry={fetchQuote} />}

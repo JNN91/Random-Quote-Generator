@@ -4,7 +4,7 @@
 
 /* Global body styling */
 body {
-  @apply bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200 
+ @apply bg-purple-100 dark:bg-purple-900 text-gray-800 dark:text-gray-200 
          font-sans leading-relaxed transition-colors duration-300;
 }
 
